@@ -6,4 +6,8 @@ A common concept in evolutionary theory is the [virulence transmission trade-off
 
 This hypothesis will be simulated using an epidemiological model.
 
+## Outline
+
+## Dependencies
+
 The requirements for this project can be found in the subfolder [scripts](https://github.com/mjemons/IDD_TB/scripts) with the name `requirements.txt`.
