@@ -1,4 +1,4 @@
-# Infectious Disease Dynamics - Antibiotic Resistance and Vaccination Trade-offs
+# Infectious Disease Dynamics - Antibiotic Susceptibility and Vaccination Trade-offs
 
 This repository was created in the context of a lab rotation at the [theoretical biology group](https://tb.ethz.ch/) of Prof Sebastian Bonhoeffer at [ETH Zurich](https://ethz.ch/en.html). Supervisor of this project is [Sonja Lehtinen](https://usys.ethz.ch/en/people/profile.MjYyNjQ5.TGlzdC82MzcsMzIwMTk3MjIy.html).
 
