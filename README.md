@@ -21,3 +21,8 @@ After cloning the repository activate an environment and run `pip install -r req
 ## Literature
 
 Literature is available in the folder `literature`. The full list of papers used are indicated in the report bibliography
+
+The two most important papers for this project are
+
+* Lehtinen, S., Blanquart, F., Croucher, N. J., Turner, P., Lipsitch, M., & Fraser, C. (2017). Evolution of antibiotic resistance is linked to any genetic mechanism affecting bacterial duration of carriage. Proceedings of the National Academy of Sciences, 114(5), 1075-1080.
+* Fraser, C., Lythgoe, K., Leventhal, G. E., Shirreff, G., Hollingsworth, T. D., Alizon, S., & Bonhoeffer, S. (2014). Virulence and pathogenesis of HIV-1 infection: an evolutionary perspective. Science, 343(6177).
