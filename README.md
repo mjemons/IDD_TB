@@ -11,3 +11,4 @@ This hypothesis will be simulated using an epidemiological model.
 ## Dependencies
 
 The requirements for this project can be found in the subfolder [scripts](https://github.com/mjemons/IDD_TB/scripts) with the name `requirements.txt`.
+After cloning the repository activate an environment and run `pip install -r requirements.txt` in your shell.
