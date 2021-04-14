@@ -8,6 +8,11 @@ This hypothesis will be simulated using an epidemiological model.
 
 ## Outline
 
+* Compartmental model quantifying the dynamics of antibiotic resistance in `simulation-SIS.ipynb`
+* Compartmental model quantifying the dynamics of antibiotic resistance in response to vaccination in `simulation-SISV.ipynb`
+* Data Analysis on the Massachussets pneumococcal dataset trying to verify our hypothesis from above in `data-analysis.ipynb`
+* Report summarising the results and discussing them in `IDD-Rotation.pdf`
+
 ## Dependencies
 
 The requirements for this project can be found in the subfolder [scripts](https://github.com/mjemons/IDD_TB/scripts) with the name `requirements.txt`.
