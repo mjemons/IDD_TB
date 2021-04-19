@@ -1,0 +1,450 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{authblk}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{appendix}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{url}
+
+\title{Life History Trade-offs in \textit{Streptococcus pneumoniae}: Antibiotic Susceptibility
+and Vaccination}
+\author[1]{Martin Emons\\ Theoretical Biology Group \\ ETH Zürich \\ \texttt{martin.emons@inf.ethz.ch}}
+\date{April 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+\textit{Streptococcus pneumoniae} is a gram-positive bacterium that can colonise the upper respiratory tract asymptomatically. It can as well lead to infections with diseases such as bacterial pneumoniae, sepsis and meningitis. The most severe infections are collectively called invasive pneumococcal disease (IPD).\cite{Zivich2018StreptococcusReview,Lchen2020DivergentValency} Estimates on the worldwide death toll for children from the year 2009 range from 700'000 to 1'000'000 each year. \cite{OBrien2009BurdenEstimates} Especially high were the fatalities in children aged 1-59 months prior to vaccination with an estimated 8-12\% of all death cases. IPD is as well a problem for people of older age with an estimated death toll of $\geq50'000$ deaths in the US each year. \cite{Zivich2018StreptococcusReview,Lchen2020DivergentValency} \\
+
+There are currently around $100$ different serotypes known of \textit{S. pneumoniae}. Because the manufacturing of conjugate vaccines is quite difficult, only a small fraction of all strains (7-13) are included in a vaccine.\cite{Lchen2020DivergentValency} This means that we can distinguish the strains of \textit{S. pneumoniae} in terms of being included in the vaccine (vaccine-type strains) or not being included in the vaccine (non-vaccine-type strains).\\
+
+A growing concern for public health is resistance in bacteria like \textit{S. pneumoniae}. The economic costs induced by multi-drug resistance are estimated to be around \$ 100 Trillion in the year 2050 in a worst case estimate. \cite{Lehtinen2017EvolutionCarriage}. When trying to understand resistance one tries to understand the trade-offs resistance infers. On the one hand a resistant cell has a selective advantage through resistance, on the other hand it has a selective disadvantage through any costs the resistance incurs. Costs of resistance are believed to be fitness costs, meaning that they decrease the fitness of the strain, e.g. the per capita growth rate. \cite{Letten2021UsingCompetition}\\
+
+This interplay between resistant and sensitive strains can be seen as a variant of the duration of infection vs. infectiousness trade-off. A sensitive strain has less fitness-costs since it does not have to maintain resistance leading to a higher infectiousness. Resistance on the other hand leads to an increased duration of infection since they are not sensitive to antibiotic treatment. \cite{Melnikov2020ExploitingPopulations, Fraser2014VirulencePerspective} Resistance comes at a competitive cost, meaning that the infectiousness of a  resistant strain is decreased. In this trade-off (infectiousness or duration of infection) it is of course context dependent which process is more beneficial. \cite{Letten2021UsingCompetition}\\
+
+One context in which the optimality of the trade-offs might change is the availability of hosts for the bacterium to colonise. Since vaccination changes the availability of hosts, it is a process of great interests for infectious disease dynamics. In 2000 the pneumococcal conjugate vaccine (PCV7) including 7 strains was admitted by the FDA. \cite{CentersforDiseaseControlandPreventionAboutVaccines} This meant that suddenly the availability of hosts changed. For some types (vaccine-types) it decreased whereas for other types it increased (non-vaccine-types). This is what is called strain replacement. The positive effects due to the reduction of one strain are by-passed by the negative effects of strain replacement by those that are not included in the vaccine. \cite{Tekle2012ControllingStrains} \\
+
+In the context of strain replacement it is of interest to investigate the dynamics of antibiotic susceptibility. This leads to the main question of this report. How does the frequency in antibiotic susceptibility of \textit{S. pneumoniae} change upon introduction of a vaccine? We will investigate this using an epidemiological model and try to verify our findings with data.
+
+\section{Results}
+
+\subsection{SIS Model of Antibiotic Resistance}
+
+First, we analysed an SIS epidemiological model as introduced by Lehtinen et al. \cite{Lehtinen2017EvolutionCarriage}. SIS stands for Susceptible-Infected-Susceptible. This model is suitable for modelling a lot of bacterial infections, including \textit{S. pneumoniae} . An SIS model assumes that infected individuals are again susceptible after recovery and there is no immunity. Furthermore, there are no births or deaths, as these two forces are equalising. Next,the infected population can be subdivided into a compartment that is infected with resistant bacteria $I_r$ and a compartment infected with susceptible bacteria $I_s$. The infections with sensitive bacteria can be treated with antibiotics at a rate $\tau$, which increases their clearing rate.  An assumption is that antibiotics lead to a direct clearance of the infection.\\
+
+Since antibiotic resistance confers an advantage in clearance (can not use antibiotics) but a disadvantage in transmission (need to invest cost in resistance), we find that $\beta_s > \beta_r$. This is encoded via a cost term $c_{\beta}$ resulting in $\beta_r = \frac{\beta}{c_{\beta}}$ and $\beta_s = \beta$. For the clearance rate we find that $\gamma_r > \gamma_s$. This is again moelled with a clearance cost $c_{\gamma}$ and get $\gamma_r = c_{\gamma}\gamma$ and $\gamma_s = \gamma$. This leads to the following system of ordinary differential equations (ODEs) that describe the dynamics of antibiotic resistance as described by Lehtinen et al. \cite{Lehtinen2017EvolutionCarriage}.
+
+\begin{equation}
+\begin{aligned}
+\frac{dS}{dt} &= (\gamma + \tau) I_s - \beta S I_s + c_{\gamma}\gamma I_r - \frac{\beta}{c_{\beta}}SI_r\\
+\frac{dI_s}{dt} &= \beta S I_s - (\gamma + \tau) I_s\\
+\frac{dI_r}{dt} &= \frac{\beta}{c_{\beta}}S I_r - c_{\gamma}\gamma I_r
+\end{aligned}
+\label{eq:SIS}
+\end{equation}
+
+The detailed description of the parameters can be found in table \ref{SIS-parameters}. 
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+Parameter    & Description                                       \\ \hline
+$\beta$      & transmission rate                             \\ \hline
+$\gamma$     & clearance rate                                \\ \hline
+$\tau$       & antibiotic consumption rate                   \\ \hline
+$c_{\beta}$  & cost of antibiotic resistance on transmission \\ \hline
+$c_{\gamma}$ & cost of antibiotic resistance on clearance    \\ \hline
+\end{tabular}
+\caption{The parameters of the SIS model are described in this table as a reference.}
+\label{SIS-parameters}
+\end{table}
+
+We can simplify this system by using the fact that we neglect births and deaths as seen above. This means we obtain a constant population size $ N = S + I_r + I_s$. Thus, we end up with the following simplified system \cite{Lehtinen2017EvolutionCarriage}:
+
+\begin{equation}
+\begin{aligned}
+\frac{dI_s}{dt} &= \beta(N-I_s-I_r) I_s - (\gamma + \tau) I_s\\
+\frac{dI_r}{dt} &= \frac{\beta}{c_{\beta}}(N-I_s-I_r)I_r - c_{\gamma}\gamma I_r
+\end{aligned}
+\label{eq:SISsimplified}
+\end{equation}
+
+When we want to analyse the behaviour of an ODE system at equilibrium we want to analyse what values get, if the system does not change anymore, i.e. the time derivative equals to zero.
+
+\begin{comment}
+\begin{equation}
+\begin{aligned}
+\frac{dI_s}{dt} &= I_s \left(\beta(N-I_s-I_r) - (\gamma + \tau) \right) \stackrel{!}{=} 0\\
+\frac{dI_r}{dt} &= I_r \left(\frac{\beta}{c_{\beta}}(N-I_s-I_r) - c_{\gamma}\gamma \right) \stackrel{!}{=} 0
+\end{aligned}
+\end{equation}
+\end{comment}
+
+We obtain a disease free solution ($I_s = I_r = 0$) or three endemic solutions.  The detailed derivation can be found in the appendix. The first two endemic solutions are out competition of either of the both strains, such that only one strain exists at equilibrium (appendix \ref{der:eq}). The interesting case is the endemic solutions that leads to coexistence.
+
+\begin{equation}
+S = \frac{\gamma + \tau}{\beta} = \frac{c_{\gamma}c_{\beta}\gamma}{\beta}
+\label{eq:coexistence}
+\end{equation}
+
+If we take the inverse of $S$ it follows that $\frac{\beta}{\gamma + \tau} = \frac{\beta}{c_{\gamma}c_{\beta}\gamma}$. This is the definition of $R_0$ meaning that we get the relationship $R_{0_s} = R_{0_r}$ at equilibrium. This is an important point, since this result shows that if we want to obtain coexistence in the SIS system, the two $R_0$ values need to be the same. This fact will be needed for the numerical simulation of the SISV model \cite{Lehtinen2017EvolutionCarriage}.\\
+
+This shows us all the possible combinations of equilibria that we could obtain and what values the variables would take dependent on the parameters. It can be seen that we have either out competition by sensitives or resistant strains if the initial conditions are larger than zero. The only case we can have coexistence, is when the $R_0$ values are the same for sensitive and resistant strains. For these equilibria we can determine the stability, which has been done in the appendix \ref{der:stab}. If $R_{0_r} >  R_{0_s}$ the resistant type will outcompete the resistant type and vice versa \cite{Lehtinen2017EvolutionCarriage}.\\
+
+Next to analysing the antibiotic model in equations \ref{eq:SIS} analytically we can look at the numerical solutions of the system. We integrated the system using the Runge-Kutta method and obtained the trajectories visible in figure \ref{fig:SIS_numerical}. We see a drop in susceptibles early in the disease progression. In this phase we see a transient increase in sensitive infections and later on a domination by resistant infections. This already shows in very simple terms what we expect to happen. The initial dynamics are a sudden drop in availaibility of hosts. Due to this loss in susceptibles we see a transient increase of sensitive strains which are out competed by resistant strains in the long run.\\
+
+We can as well perform a phase plane analysis of the simplified system described in equations \ref{eq:SISsimplified}. In figure \ref{fig:phase_plane} we see the trajectories of sensitive and resistant infected individuals for different starting conditions. The transient dynamics are highly dependent on the starting conditions on sensitive vs. resistant types. In the long run however we see the domination of the resistant strains no matter where we start from. This shows the importance of keeping the starting conditions in mind, as we are investigating transient dynamics.\\
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.65\textwidth]{figures/SIS_numerical.png}
+    \caption{The trajectories of the SIS ODE system are plotted. On the y-axis are the number of individuals per compartment in 1000s. The x-axis is the time measured in months. We see a sharp drop in susceptibles in the first 10 months and an increase in both infected compartments. After approx. 10 months the infected-sensitive cases go back again and the infected-resistant cases make up 50\% at equilibrium. The parameter values are $c_{\beta} = 1.0$, $c_{\gamma} = 1.0$, $\beta = 2/N$, $\gamma = 1$ and $\tau = 0.075$}
+    \label{fig:SIS_numerical}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/phase_plane.png}
+    \caption{This graph shows a phase plane analysis of the simplified system described in equations \ref{eq:SISsimplified}. According to different starting conditions (the points in the lower-left quadrant where the trajectories start) we see different transient dynamics. In the long run we see however, that the resistant types will out compete the sensitives}
+    \label{fig:phase_plane}
+\end{figure}
+
+Through the antibiotic resistance model in equation \ref{eq:SIS} and \ref{eq:SISsimplified} we get an idea about how the sensitive and resistant strains behave subject to a decrease in available host. Via the phase plane analysis in figure \ref{fig:phase_plane} we understand that initial conditions matter a lot for transient phenomena. The flaw in the modelling up until now is, that we do not account for vaccination explicitly. This leads to the next, more complex SISV model.
+
+\subsection{SISV Model of Antibiotic Resistance and of Vaccination}
+
+The main idea of this model was to take the SIS model from equation \ref{eq:SIS} and allow for vaccination. This gives rise to an SISV model, which includes a vaccinated compartment $V$. Since a vaccine against \textit{S. pneumoniae} only includes certain strains and not others, we had to distinguish between infections with a vaccine-type $I^v$ (meaning a strain that is included in the vaccine) and a non-vaccine-type $I^{nv}$(not included in the vaccine). The dynamics of resistant and sensitive strains happens in the same way for non-vaccine-type and vaccine-type as described in the SIS model (equation \ref{eq:SIS}). Vaccinating individuals happens at a rate $\nu$. Individuals that were vaccinated can not be infected again with a vaccine-type bacterium. In order to keep track of the non-vaccine-type infections, a subcompartment was created e.g. $I^{nv,S}$ and $I^{nv,V}$ for non-vaccinated individual with infections and vaccinated individuals with infections respectively. This gave rise to the following system of ODEs described in the flowchart \ref{fig:flowchart} and in the equations of the equation \ref{eq:SISV}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1.0\textwidth]{figures/flowchart.png}
+    \caption{Flowchart describing the equations from the system \ref{eq:SISV}. The variables are described in table \ref{SISV-variables} and the parameters in table \ref{SISV-parameters}. The equations of the ODE system are defined in equation \ref{eq:SISV}.}
+    \label{fig:flowchart}
+\end{figure}
+
+\begin{equation}
+\begin{aligned}
+\frac{dS}{dt} &= (\gamma + \tau)(I_s^{nv,S}+I_s^v) - \beta S (I_s^{nv,S}+I_s^v) + c_{\gamma}\gamma(I_r^{nv,S}+I_r^v) - \frac{\beta}{c_{\beta}}S(I_r^{nv,S}+I_r^v) - \nu S\\
+\frac{dI_s^{nv,S}}{dt} &= \beta S I_s^{nv,S} - (\gamma + \tau) I_s^{nv,S} - \nu I_s^{nv,S}\\
+\frac{dI_r^{nv,S}}{dt} &= \frac{\beta}{c_{\beta}} S I_r^{nv,S} - c_{\gamma}\gamma I_r^{nv,S} - \nu I_r^{nv,S}\\
+\frac{dI_s^{nv,V}}{dt} &= \beta V I_s^{nv,V} - (\gamma + \tau) I_s^{nv,V} + \nu I_s^{nv,S}\\
+\frac{dI_r^{nv,V}}{dt} &= \frac{\beta}{c_{\beta}} V I_r^{nv,V} - c_{\gamma}\gamma I_r^{nv,V} + \nu I_r^{nv,S}\\
+\frac{dI_s^v}{dt} &= \beta S I_s^v - (\gamma + \tau) I_s^v - \nu I_s^v\\
+\frac{dI_r^v}{dt} &= \frac{\beta}{c_{\beta}} S I_r^v - c_{\gamma}\gamma I_r^v - \nu I_r^v\\
+\frac{dV}{dt} &= \nu S + (\gamma + \tau)I_s^{nv,V} - \beta V I_s^{nv,V} + c_{\gamma}\gamma I_r^{nv,V} - \frac{\beta}{c_{\beta}} V I_r^{nv,V} + \nu (I_s^v + I_r^v)
+\end{aligned}
+\label{eq:SISV}
+\end{equation}
+
+The variables of equation \ref{eq:SISV} are described in table \ref{SISV-variables} and the parameters in table \ref{SISV-parameters}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+Variable    & Description                                       \\ \hline
+$S$      & Susceptibles                             \\ \hline
+$I_s^{nv,S}$     & Unvaccinated, infected with a sensitive strain of the non-vaccine-type \\ \hline
+$I_r^{nv,S}$     & Unvaccinated, infected with a resistant strain of the non-vaccine-type \\ \hline
+$I_s^{nv,V}$     & Vaccinated, infected with a sensitive strain of the non-vaccine-type  \\ \hline
+$I_r^{nv,V}$     & Vaccinated, infected with a resistant strain of the non-vaccine-type \\ \hline
+$I_s^v$       & Infected with a resistant strain of the vaccine-type     \\ \hline
+$I_r^v$       & Infected with a sensitive strain  of the vaccine-type                  \\ \hline
+$V$       & Vaccinated                  \\ \hline
+\end{tabular}
+\caption{The variables of the SISV model are described in this table as a reference.}
+\label{SISV-variables}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+Parameter    & Description                                       \\ \hline
+$\beta$      & transmission rate                             \\ \hline
+$\gamma$     & clearance rate                                \\ \hline
+$\tau$       & antibiotic consumption rate                   \\ \hline
+$c_{\beta}$  & cost of antibiotic resistance on transmission \\ \hline
+$c_{\gamma}$ & cost of antibiotic resistance on clearance    \\ \hline
+$\nu$        & vaccination rate   \\ \hline
+\end{tabular}
+\caption{The parameters of the SISV model are described in this table as a reference.}
+\label{SISV-parameters}
+\end{table}
+
+If we want to introduce a rollout of the vaccine after reaching equilibrium, we need to have sensitive and resistant individuals. In order to do this we will enforce coexistence. We saw that the $R_0$ values for the sensitives and the resistants need to be the same as we have derived in equation \ref{eq:coexistence}: $\frac{\beta}{\gamma + \tau} = \frac{\beta}{c_{\gamma}c_{\beta}\gamma}$. We obtain the relationship $R_{0_s} = R_{0_r}$ at equilibrium and in this state we will reach the equilibrium of coexistence. 
+
+This leads to a constraint on the antibiotic consumption rate as done by Lehtinen et al. \cite{Lehtinen2017EvolutionCarriage}:
+
+\begin{equation}
+\begin{aligned}
+R_{0_s} &= R_{0_r}\\
+\frac{\beta}{\gamma + \tau} &= \frac{\beta}{c_{\gamma}c_{\beta}\gamma}\\
+\tau &= \gamma (c_{\gamma}c_{\beta} - 1)
+\end{aligned}
+\end{equation}
+
+In the beginning the two vaccinated and susceptible Infected subcompartments evolve in equilibrium. This means the parameter $\tau$ is set to be as above and $\nu$ to be zero so that there are no vaccinated indivudals. In order not to have too much confounding by the coexistence assumption, a very small competition in the value of $\Delta = 0.01$ is introduced which leads to the strains still coexisting but in the long term after vaccination competitive effects are visible.\\
+
+This system can again be analysed numerically and we obtain the following trajectories visible in figure \ref{fig:SISV_numerical}. In the first 50 months the trajectories are coexisting with the infected sensitives individuals that were not vaccinating have a little advantage, du to the doubled initial condition. This leads to $\sim 2x$ sensitive to resistant non-vaccine types when the vaccination starts. The introduction of the vaccination campaign at $t = 50$ shows a drop in susceptibles and a rise in vaccinated individuals. Interestingly, the vaccine-type strains decline first before the non-vaccine-type strains take over the field. This period of change in availability of host shows a transient dominance of sensitives over resistant strains in the non-vaccine-type strains. In the long run the resistant strains will be fixed however.\\
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.65\textwidth]{figures/SISV_numerical.png}
+    \caption{Plot of the dynamics of SISV model over time. Vaccination after timepoint $t=50$. On the y-axis are the number of individuals per compartment in 1000s. The x-axis is the time measured in months. The parameter values are $c_{\beta} = 1.1$, $c_{\gamma} = 1.0$, $\beta = 2/N$, $\gamma = 1$, $\tau = 0.11$ and $\nu = 0.05$. In this plot the subcompartments are added together, so that the behaviour of vaccine-types vs non-vaccine-types in terms of susceptibility can be analysed more easily. The initial conditions were $I_s^{nv,S} = 2, I_r^{nv,S} = 1, I_s^{nv,V} = 0, I_r^{nv,V} = 0, I_s^v = 1, I_r^v = 1$ and $V=0$}
+    \label{fig:SISV_numerical}
+\end{figure}
+
+The simulation gives rise to the hypothesis that a transient shortage of host, as is the case during an ongoing vaccination campaign, will lead to a transient increase of sensitive frequencies an a slower increase in resistant strains. In order to verify this claim, we looked at data from pneumococcal vaccination campaigns.
+
+\subsection{Data Analysis}
+
+First we look at the development of vaccine-types vs. non-vaccine-types over the course of time. This is visible in figure \ref{fig:v-nv-frequencies}. The dataset is from Massachusetts hospitals, collected in the form of nasal swaps in children. The vaccination campaign with PCV7 started in 2000. Therefore, we make the assumption that the year 2001 constitutes as a pre-vaccination data point. Thus, the pre-vaccination frequencies are such, that the non-vaccine-types are already more common than the vaccine-types. This is something we can as well enforce in the simulation in figure \ref{fig:SISV_numerical} by changing the initial conditions. 
+It is visible that first the vaccine-type frequencies decline before the non-vaccine-type frequencies rise. This observation was as well seen in the simulation in figure \ref{fig:SISV_numerical}. \\
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/v-nv-frequencies.png}
+    \caption{Plotted here are the relative frequencies of vaccine-types vs. non-vaccine-types over the course of the collection period. The relative frequency was corrected for different test positivity over the years (27\%, 23\% and 30\%).}
+    \label{fig:v-nv-frequencies}
+\end{figure}
+
+The interest in the transition for the non-vaccine-types as seen in the simulation (figure \ref{fig:SISV_numerical}) meant that in the following analysis we focused on non-vaccine-types. This was due to the hypothesis on the transient domination of sensitive strains in the non-vaccine types. In figure \ref{fig:contigency} we note, that the overall amount of positive \textit{S. pneumoniae} cases increased over the years. In order to compare the years, the relative frequencies were computed in figure \ref{fig:nv-frequencies}. In 2001 there are already more sensitive than resistant strains. There is a trend of equilibration, but this trend is not statistically significant. A chi-squared test on the absolute counts gave a p-value of $0.62$. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/contingency.png}
+    \caption{Absolute counts per resistance type in the three years of data collection depicted as a confusion matrix.}
+    \label{fig:contigency}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/nv-frequencies.png}
+    \caption{Plotted here are the relative frequencies of resistant vs. sensitive strains over the course of the collection period.}
+    \label{fig:nv-frequencies}
+\end{figure}
+
+
+
+\section{Discussion}
+\paragraph{Competitive exclusion and transient increase in sensitives} Unless we make the simplifying assumption of having the exact same $R_0$ values for the resistant and the sensitive strains, we expect a competitive exclusion. Depending on which $R_0$ value is larger we get either an exclusion of sensitives or resistant strains. This can be seen in figure \ref{fig:SIS_numerical}. Given the initial conditions the parameter values we see a competitive exclusion of the sensitive strain. The interesting thing is the transient behaviour. There, we see a peak in sensitives which decreases again after some time. We hypothesise that this is due to the shortage in susceptibles. The drop of susceptibles leads to a transient increase in sensitives but in the long run the resistant strains out compete the sentitives. This process is analogous to vaccination which leads as well to a shortage in host.
+
+\paragraph{Initial conditions matter for transient peak} In figure \ref{fig:phase_plane} the trajectories for different intital conditions are plotted. It is clear the transient behaviour is highly dependent on the intitial conditions. This is of importance because we can adjust this to our data, since we have as well a pre-vaccination datapoint, so we can integrate the intial conditions into our model.
+
+\paragraph{Vaccine model gives transient dominance of sensitives} Using the model of vaccination and antibiotic resistance in equation \ref{eq:SISV} and initialising with twice as many sensitive as resistant strains (as found in the data in figure \ref{fig:nv-frequencies}) we observe a transient dominance of sensitives in figure \ref{fig:SISV_numerical}. In the long term we parameterised the model such that we see competitive exclusion of sensitives, as this is what we expect to happen in nature. Furthermore, we see the decline in the vaccine type strains prior to the increase in the non-vaccine types.
+
+\paragraph{Prior Decline in vaccine-type found in data} The decline in vaccine-type as found in the simulation figure \ref{fig:SISV_numerical} can be found in the data as well in figure \ref{fig:v-nv-frequencies}. From 2001 to 2004 the vaccine-types decline whereas the non-vaccine-types remain more or less constant. The non-vaccine-types only start to increase substantially in the interval 2004-2007. Overall, the vaccine types go down after introduction of the vaccine, whereas the non-vaccine types increase. In more detail we see that the vaccine-types decrease prior to the increase in the non-vaccine types. This finding supports thus the claim in our simulation.
+
+\paragraph{Transient dominance of sensitives is not found in the data} The transient dominance as found in the simulation figure \ref{fig:SISV_numerical} is not found in the data figure \ref{fig:nv-frequencies}. We see that in the beginning already we have more sensitive strains than resistant ones (which we accounted for in the simulation with our initial conditions). Then we see though no increase in sensitives but rather a decrease and an increase in resistant types. This is not aligned with our hypothesis. There are multiple ways to explain this mismatch. Firstly, the timespan between the data points is quite large (4 year intervals or 48 months). In the simulation the vaccination campaign starts at $t=50$ and the plateau after which we expect a decline in sensitives again is at $\sim t = 100$. This means in the simulation, we expect the transient behaviour to show within approximately $50$ months. Since the data was only collected $48$ months after the first timepoint, it could be that we simply miss the transient phase. This should be investigated in more detail with a more fine-grained dataset, where we ideally would have a datapoint each year. The other explanaition might be, that our model in equation \ref{eq:SISV} was too simplified, since we had introduce coexistence by setting the treatment rate to equation \ref{eq:coexistence}. This would mean that one could set up a more sophisticated model taking into account aspects such as balancing selection \cite{Lehtinen2017EvolutionCarriage} to explain coexistence, which we did not do in the course of this project.
+
+\section{Conclusion}
+In this project we have seen an approach to modelling the effect vaccination has on antibiotic resistance. This model gave rise to the hypothesis that after vaccination we should see a transient dominance of sensitive strains followed by an out competition of those strains when going towards equilibrium. This finding is not found in our dataset. Furthermore, we hypothesise from the simulation that the vaccine-types should decrease prior to the non-vaccine-types increasing. This can be found in our data analysis. Further work should focus on data analysis of a more fine-grained set and work on a more complex model including different approaches to achieve coexistence. I thank Sonja Lehtinen for the kind supervision, it has been a very pleasant working atmosphere and a stimulating research topic.
+
+\begin{footnotesize}
+\section{Material \& Methods}
+
+\subsection{Datasets and Data Availability}
+The data is made available on the github page of the project \url{https://github.com/mjemons/IDD_TB} in the subfolder \texttt{data}. The data used was the Massachusetts dataset described in Croucher et al.\cite{Croucher2015PopulationPneumoniae}. It contains information on nasal swaps of 616 children collected between 2001 and 2007.
+
+\subsection{Model Implementation and Code Availability}
+The models and data analysis was implemented using python 3.7.9. All the packages and their corresponding versions are documented in the \texttt{requirements.txt} on the following github page \url{https://github.com/mjemons/IDD_TB} in the subfolder \texttt{scripts}. All code that was used in this project can be found on the same
+github page. 
+
+\subsection{Parameterisation}
+The model parameters chosen were taken from Lehtinen et al. \cite{Lehtinen2017EvolutionCarriage}. The initial conditions were chosen to be always 1 for the infecteds except for the SISV numerical integration. There the $I_s^{nv,S}$ type was set to 2, in order to get conditions at $t=50$ that are comparable with the data when the vaccination campaign started. 
+
+\end{footnotesize}
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+
+\appendix
+
+\section{Derivation of SIS Equilibria}
+\label{der:eq}
+
+Since we neglect births and deaths as seen above we get a constant population size N: $ N = S + I_r + I_s$. This means the system becomes a 2x2 system of equations:
+
+$$
+\begin{aligned}
+\frac{dI_s}{dt} &= \beta(N-I_s-I_r) I_s - (\gamma + \tau) I_s\\
+\frac{dI_r}{dt} &= \frac{\beta}{c_{\beta}}(N-I_s-I_r)I_r - c_{\gamma}\gamma I_r
+\end{aligned}
+$$
+
+Factoring out $I_r$ and $I_s$ we get:
+
+$$
+\begin{aligned}
+\frac{dI_s}{dt} &= I_s \left(\beta(N-I_s-I_r) - (\gamma + \tau) \right) \stackrel{!}{=} 0\\
+\frac{dI_r}{dt} &= I_r \left(\frac{\beta}{c_{\beta}}(N-I_s-I_r) - c_{\gamma}\gamma \right) \stackrel{!}{=} 0
+\end{aligned}
+$$
+
+Here we get either a disease free solution ($I_s = I_r = 0$) or three endemic solutions
+\begin{itemize}
+\item disease free: $I_s = I_r = 0$
+
+\item endemic I: $I_s = I_r \neq 0$
+
+$$
+\begin{aligned}
+N-I_s-I_r &= \frac{\gamma + \tau}{\beta}\\
+N-I_s-I_r &= \frac{c_{\gamma}c_{\beta}\gamma}{\beta}
+\end{aligned}
+$$
+
+It follows that $S = \frac{\gamma + \tau}{\beta} = \frac{c_{\gamma}c_{\beta}\gamma}{\beta}$
+
+If we take the inverse of $S$ it follows that $\frac{\beta}{\gamma + \tau} = \frac{\beta}{c_{\gamma}c_{\beta}\gamma}$. This is the definition of $R_0$ meaning that we get the relationship $R_{0_s} = R_{0_r}$ at equilibrium.
+
+\item endemic II: $I_s = 0, I_r \neq 0$
+
+$$
+\begin{aligned}
+\frac{dI_s}{dt} &= I_s \left(\beta(N-I_s-I_r) - (\gamma + \tau) \right) \stackrel{!}{=} 0\\
+\frac{dI_r}{dt} &= I_r \left(\frac{\beta}{c_{\beta}}(N-I_s-I_r) - c_{\gamma}\gamma \right) \stackrel{!}{=} 0
+\end{aligned}
+$$
+
+Since $I_s = 0$ we get: 
+
+$$
+\begin{aligned}
+I_r \left(\frac{\beta}{c_{\beta}}(N-I_r)-c_{\gamma}\gamma\right) = 0\\
+\end{aligned}
+$$
+
+since $I_r \neq 0$ the brackets need to zero:
+
+$$
+\begin{aligned}
+\frac{\beta}{c_{\beta}}(N-I_r)-c_{\gamma}\gamma &= 0\\
+\frac{\beta}{c_{\beta}}N - \frac{\beta}{c_{\beta}} I_r - c_{\gamma} \gamma &= 0\\
+\frac{\beta}{c_{\beta}} I_r &=  \frac{\beta}{c_{\beta}}N - c_{\gamma} \gamma\\
+I_r &= N - \frac{c_{\beta}c_{\gamma}\gamma}{\beta}
+\end{aligned}
+$$
+
+\item endemic III: $I_s \neq 0, I_r = 0$
+
+$$
+\begin{aligned}
+\frac{dI_S}{dt} &= I_s \left(\beta(N-I_s-I_r) - (\gamma + \tau) \right) \stackrel{!}{=} 0\\
+\frac{dI_R}{dt} &= I_r \left(\frac{\beta}{c_{\beta}}(N-I_s-I_r) - c_{\gamma}\gamma \right) \stackrel{!}{=} 0
+\end{aligned}
+$$
+
+Since $I_r = 0$ we get:
+
+$$
+I_s \left(\beta(N-I_s) - (\gamma + \tau) \right) = 0
+$$
+
+since $I_s \neq 0$ the brackets need to zero:
+
+$$
+\begin{aligned}
+\beta(N-I_s) - (\gamma + \tau)  &= 0\\
+\beta N - \beta I_s - \gamma + \tau &= 0\\
+\beta I_s &= \beta N - \gamma + \tau \\
+I_s &= N - \frac{\gamma + \tau}{\beta}
+\end{aligned}
+$$
+\end{itemize}
+
+\section{Derivation of SIS Stability}
+\label{der:stab}
+Stability analysis will allow us to decide which equilibrium will be attained according to the parameters. In this analysis we perform a linearisation of the system around the equilibrium point. First, we will define the Jacobian Matrix
+
+$$
+\begin{aligned}
+\mathbb{J}  &= \begin{pmatrix} \frac{\partial f_1}{\partial I_s} & \frac{\partial f_1}{\partial I_r} \\ \frac{\partial f_2}{\partial I_s} & \frac{\partial f_2}{\partial I_r} \end{pmatrix}\\
+            &= \begin{pmatrix} \beta(N-2I_s-I_r)-(\gamma+\tau) & -\beta I_s & \\ -\frac{\beta}{c_{\beta}}I_r & \frac{\beta}{c_{\beta}}(N-I_s-2I_r)-c_{\gamma}\gamma \end{pmatrix}\\
+\end{aligned}
+$$
+
+the stability of the equilibrium point can be determined by the sign of the eigenvalues of the Jacobian. In order to solve this, we will have to define the characteristic polynomial:
+
+$$
+\begin{aligned}
+\det(\mathbb{J}-\lambda \mathbb{I}) &= 0\\
+\end{aligned}
+$$
+
+In order to solve this we will plug in the equilibrium solutions and then solving the resulting characteristic polynomial.
+
+We will analyse it first generally and then plug in the corresponding values at the equilibria.
+
+$$
+\begin{aligned}
+\det(\mathbb{J}-\lambda \mathbb{I}) &= 0\\
+&= \begin{pmatrix} \beta(N-2I_s-I_r)-(\gamma+\tau) - \lambda & -\beta I_s \\  -\frac{\beta}{c_{\beta}}I_r& \frac{\beta}{c_{\beta}}(N-I_s-2I_r)-c_{\gamma}\gamma-\lambda \end{pmatrix} = 0\\
+&= \left[\beta(N-2I_s-I_r)-(\gamma+\tau) - \lambda\right]\cdot\left[\frac{\beta}{c_{\beta}}(N-I_s-2I_r)-c_{\gamma}\gamma-\lambda\right] - \left[-\beta I_s\right] \cdot \left[-\frac{\beta}{c_{\beta}}I_r\right] = 0 \\
+&= \lambda^2 + \lambda\left(c_{\gamma}\gamma - \frac{\beta}{c_{\beta}}(N-I_s-2I_r) + (\gamma + \tau)-\beta(N-2I_s-I_r)\right) + \frac{\beta^2}{c_{\beta}}(N-2I_s-I_r)(N-I_s-2I_r)\\ &-\beta c_{\gamma}\gamma (N-2I_s-I_r) +c_{\gamma}\gamma(\gamma + \tau) - (\gamma + \tau)\frac{\beta}{c_{\beta}}(N-I_s-2I_r) - \frac{\beta^2}{c_{\beta}} I_r I_s
+\end{aligned}
+$$
+
+this can then be solved using midnights formula:
+
+$$
+\lambda_{1,2} = \frac{-b \pm \sqrt{b^2-4ac}}{2a}
+$$
+
+The parameters $a,b,c$ for the different equilibrium points are:
+
+* disease free ($I_s = I_r = 0$) :
+
+$$
+\begin{aligned}
+a &= 1 \\
+b &= \frac{\beta}{c_{\beta}}N + c_{\gamma}\gamma + \gamma + \tau - \beta N\\
+c &= \frac{\beta^2}{c_{\beta}}N^2 - \beta c_{\gamma}\gamma N - \frac{\beta}{c_{\beta}} \gamma N + c_{\gamma}(\gamma + \tau) - \frac{\beta}{c_{\beta}}N (\tau + \gamma)\\
+\end{aligned}
+$$
+\begin{itemize}
+\item endemic I ($I_s \neq 0, I_r \neq 0$):
+
+$$
+\begin{aligned}
+a &= 1 \\
+b &= c_{\gamma}\gamma - \frac{\beta}{c_{\beta}}(N-I_s-2I_r) + (\gamma + \tau)-\beta(N-2I_s-I_r)\\
+c &= \frac{\beta^2}{c_{\beta}}(N-2I_s-I_r)(N-I_s-2I_r)-\beta c_{\gamma}\gamma (N-2I_s-I_r)\\&+c_{\gamma}\gamma(\gamma + \tau) - (\gamma + \tau)\frac{\beta}{c_{\beta}}(N-I_s-2I_r) - \frac{\beta^2}{c_{\beta}} I_r I_s
+\end{aligned}
+$$
+
+\item endemic II ($I_s = 0, I_r \neq 0$):
+
+$$
+\begin{aligned}
+a &= 1 \\
+b &= c_{\gamma}\gamma - \frac{\beta}{c_{\beta}}(N-2I_r) + (\gamma + \tau)-\beta(N-I_r)\\
+c &= \frac{\beta^2}{c_{\beta}}(N-I_r)(N-2I_r)-\beta c_{\gamma}\gamma (N-I_r)\\&+c_{\gamma}\gamma(\gamma + \tau) - (\gamma + \tau)\frac{\beta}{c_{\beta}}(N-2I_r) - \frac{\beta^2}{c_{\beta}}
+\end{aligned}
+$$
+
+\item endemic III ($I_s \neq 0, I_r = 0$):
+
+$$
+\begin{aligned}
+a &= 1 \\
+b &= c_{\gamma}\gamma - \frac{\beta}{c_{\beta}}(N-I_s) + (\gamma + \tau)-\beta(N-2I_s)\\
+c &= \frac{\beta^2}{c_{\beta}}(N-2I_s)(N-I_s)-\beta c_{\gamma}\gamma (N-2I_s)\\&+c_{\gamma}\gamma(\gamma + \tau) - (\gamma + \tau)\frac{\beta}{c_{\beta}}(N-I_s) 
+\end{aligned}
+$$
+\end{itemize}
+
+\end{document}
