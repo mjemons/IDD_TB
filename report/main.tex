@@ -240,9 +240,9 @@ The interest in the transition for the non-vaccine-types as seen in the simulati
 
 
 \section{Discussion}
-\paragraph{Competitive exclusion and transient increase in sensitives} Unless we make the simplifying assumption of having the exact same $R_0$ values for the resistant and the sensitive strains, we expect a competitive exclusion. Depending on which $R_0$ value is larger we get either an exclusion of sensitives or resistant strains. This can be seen in figure \ref{fig:SIS_numerical}. Given the initial conditions the parameter values we see a competitive exclusion of the sensitive strain. The interesting thing is the transient behaviour. There, we see a peak in sensitives which decreases again after some time. We hypothesise that this is due to the shortage in susceptibles. The drop of susceptibles leads to a transient increase in sensitives but in the long run the resistant strains out compete the sentitives. This process is analogous to vaccination which leads as well to a shortage in host.
+\paragraph{Competitive exclusion and transient increase in sensitives} Unless we make the simplifying assumption of having the exact same $R_0$ values for the resistant and the sensitive strains, we expect a competitive exclusion. Depending on which $R_0$ value is larger we get either an exclusion of sensitives or resistant strains. This can be seen in figure \ref{fig:SIS_numerical}. Given the initial conditions the parameter values we see a competitive exclusion of the sensitive strain. The interesting thing is the transient behaviour. There, we see a peak in sensitives which decreases again after some time. We hypothesise that this is due to the shortage in susceptibles. The drop of susceptibles leads to a transient increase in sensitives but in the long run the resistant strains out compete the sentitives. This process is analogous to vaccination which leads as well to a shortage in host. One thing we would have expected to see was a transient dominance, meaning that the sensitive grow faster than the resistant strains. When checking for this, we that $I_s$ only grows faster than $I_r$ if the inequality $\beta S_{df} \left(1-\frac{1}{c_\beta}\right) + \gamma (c_\gamma - 1) - \tau &> 0$ holds (see Appendix \ref{der:initial}). This was not given by our parameter choices.
 
-\paragraph{Initial conditions matter for transient peak} In figure \ref{fig:phase_plane} the trajectories for different intital conditions are plotted. It is clear the transient behaviour is highly dependent on the intitial conditions. This is of importance because we can adjust this to our data, since we have as well a pre-vaccination datapoint, so we can integrate the intial conditions into our model.
+\paragraph{Initial conditions matter for transient peak} In figure \ref{fig:phase_plane} the trajectories for different initial conditions are plotted. It is clear the transient behaviour is highly dependent on the initial conditions. This is of importance because we can adjust this to our data, since we have as well a pre-vaccination datapoint, so we can integrate the initial conditions into our model.
 
 \paragraph{Vaccine model gives transient dominance of sensitives} Using the model of vaccination and antibiotic resistance in equation \ref{eq:SISV} and initialising with twice as many sensitive as resistant strains (as found in the data in figure \ref{fig:nv-frequencies}) we observe a transient dominance of sensitives in figure \ref{fig:SISV_numerical}. In the long term we parameterised the model such that we see competitive exclusion of sensitives, as this is what we expect to happen in nature. Furthermore, we see the decline in the vaccine type strains prior to the increase in the non-vaccine types.
 
@@ -250,8 +250,12 @@ The interest in the transition for the non-vaccine-types as seen in the simulati
 
 \paragraph{Transient dominance of sensitives is not found in the data} The transient dominance as found in the simulation figure \ref{fig:SISV_numerical} is not found in the data figure \ref{fig:nv-frequencies}. We see that in the beginning already we have more sensitive strains than resistant ones (which we accounted for in the simulation with our initial conditions). Then we see though no increase in sensitives but rather a decrease and an increase in resistant types. This is not aligned with our hypothesis. There are multiple ways to explain this mismatch. Firstly, the timespan between the data points is quite large (4 year intervals or 48 months). In the simulation the vaccination campaign starts at $t=50$ and the plateau after which we expect a decline in sensitives again is at $\sim t = 100$. This means in the simulation, we expect the transient behaviour to show within approximately $50$ months. Since the data was only collected $48$ months after the first timepoint, it could be that we simply miss the transient phase. This should be investigated in more detail with a more fine-grained dataset, where we ideally would have a datapoint each year. The other explanaition might be, that our model in equation \ref{eq:SISV} was too simplified, since we had introduce coexistence by setting the treatment rate to equation \ref{eq:coexistence}. This would mean that one could set up a more sophisticated model taking into account aspects such as balancing selection \cite{Lehtinen2017EvolutionCarriage} to explain coexistence, which we did not do in the course of this project.
 
+\paragraph{Parameter choices} In the course of this discussion we have made claims that are dependent on the choice of parameters. Thus, we want to discuss how sensible the choice of parameters is in the context of \textit{S. pneumoniae}. The values for $\beta, \tau$ and $\gamma$ were taken from Colijn et al. \cite{Colijn2010WhatPneumoniae} and Lehtinen et al. \cite{Lehtinen2017EvolutionCarriage}. Colijn et al. describe in detail which parameter values make sense in which context. The cost parameters $c_{\beta}$ and $c_{\gamma}$ were chosen accordingly to Lehtinen et al. \cite{Lehtinen2017EvolutionCarriage}. The choices of the costs are though important as certain behaviours can only be seen for certain values of $c_{\beta}$ and $c_{\gamma}$ (Appendix figure \ref{fig:parameterisation}).  
+
 \section{Conclusion}
-In this project we have seen an approach to modelling the effect vaccination has on antibiotic resistance. This model gave rise to the hypothesis that after vaccination we should see a transient dominance of sensitive strains followed by an out competition of those strains when going towards equilibrium. This finding is not found in our dataset. Furthermore, we hypothesise from the simulation that the vaccine-types should decrease prior to the non-vaccine-types increasing. This can be found in our data analysis. Further work should focus on data analysis of a more fine-grained set and work on a more complex model including different approaches to achieve coexistence. I thank Sonja Lehtinen for the kind supervision, it has been a very pleasant working atmosphere and a stimulating research topic.
+In this project we have seen an approach to modelling the effect vaccination has on antibiotic resistance. This model gave rise to the hypothesis that after vaccination we should see a transient dominance of sensitive strains followed by an out competition of those strains when going towards equilibrium. This finding is not found in our dataset. Furthermore, we hypothesise from the simulation that the vaccine-types should decrease prior to the non-vaccine-types increasing. This can be found in our data analysis. Further work should focus on data analysis of a more fine-grained set and work on a more complex model including different approaches to achieve coexistence. 
+
+\section{Acknowledgments} I thank Sonja Lehtinen for the kind supervision, it has been a very pleasant working atmosphere and a stimulating research topic. I thank as well Sebastian Bonhoeffer for making the rotation possible in the theoretical biology group.
 
 \begin{footnotesize}
 \section{Material \& Methods}
@@ -264,12 +268,13 @@ The models and data analysis was implemented using python 3.7.9. All the package
 github page. 
 
 \subsection{Parameterisation}
-The model parameters chosen were taken from Lehtinen et al. \cite{Lehtinen2017EvolutionCarriage}. The initial conditions were chosen to be always 1 for the infecteds except for the SISV numerical integration. There the $I_s^{nv,S}$ type was set to 2, in order to get conditions at $t=50$ that are comparable with the data when the vaccination campaign started. 
+The model parameters chosen were taken from Lehtinen et al. \cite{Lehtinen2017EvolutionCarriage} and Colijn et. al. \cite{Colijn2010WhatPneumoniae}. They are given as rates per month (see as well discussion). The initial conditions were chosen to be always 1 for the infecteds except for the SISV numerical integration. There the $I_s^{nv,S}$ type was set to 2, in order to get conditions at $t=50$ that are comparable with the data when the vaccination campaign started. 
 
 \end{footnotesize}
 \bibliographystyle{unsrt}
 \bibliography{references}
 
+\pagebreak
 
 \appendix
 
@@ -446,5 +451,45 @@ c &= \frac{\beta^2}{c_{\beta}}(N-2I_s)(N-I_s)-\beta c_{\gamma}\gamma (N-2I_s)\\&
 \end{aligned}
 $$
 \end{itemize}
+
+\section{Initial Growth analysis}
+\label{der:initial}
+
+We can analyse the initial growth of the system as follows
+$$
+\begin{aligned}
+\frac{dS}{dt} &= (\gamma + \tau) I_s - \beta S I_s + c_{\gamma}\gamma I_r - \frac{\beta}{c_{\beta}}SI_r\\
+\frac{dI_s}{dt} &= \beta S I_s - (\gamma + \tau) I_s\\
+\frac{dI_r}{dt} &= \frac{\beta}{c_{\beta}}S I_r - c_{\gamma}\gamma I_r
+\end{aligned}
+$$
+
+We plug in the initial conditions of the disease free state
+
+if $I_s$ should grow faster than $I_r$ we get the following
+
+$$
+\beta S_{df} - (\gamma + \tau) > \frac{\beta}{c_{\beta}} S_{df}-c_{\gamma}\gamma
+$$
+
+as $S_{df} = C$ (the initial condition of $S$) in the disease-free state we get
+
+$$
+\begin{aligned}
+\beta S_{df} - \frac{\beta}{c_{\beta}}S_{df}-\gamma - \tau + c_{\gamma}\gamma &>0\\
+\beta S_{df} \left(1-\frac{1}{c_\beta}\right) + \gamma (c_\gamma - 1) - \tau &> 0
+\end{aligned}
+$$
+
+This means we only suspect a faster growth of $I_s$ in the beginning (dominance) if the above holds true. This is the case e.g. when $c_{\gamma} = c_{\beta} \geq 1$. If only one of them is greater than $1$, then the inequality above has to hold.
+
+\section{Sensitivity Analysis of Parameters}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/parameterisation.png}
+    \caption{Sensitivity analysis for different cost values. The Riemann sum of the sensitive curve was computed or different values of $c_{\gamma}$ and $c_{\beta}$.}
+    \label{fig:parameterisation}
+\end{figure}
 
 \end{document}
