@@ -21,7 +21,7 @@ and Vaccination}
 \maketitle
 
 \begin{abstract}
-    Antibiotic resistance in \textit{Streptococcus pneumoniae} is a growing reason of concern in public health. In this paper, we investigate the dynamics of antibiotic sensitivity of \textit{S. pneumoniae} in response to vaccination. In a SIS model, we find that a change in availability host leads to transient domination of sensitive strains over resistant strains. As an extension to this framework, we set up a SISV model which incorporates vaccination explicitly. The SISV model supports our prediction of transient dominance of sensitive strains over resistant strains. This domination of sensitive strains can be seen as a transient shift towards higher infectiousness. Data from the Massachusetts pneumococcal vaccination campaign does not show the same trends as we predict with our models. This means that i) either the data resolution is too poor and we couldn't see the trends we expect to see or ii) the model misses important aspects of vaccination. 
+    Antibiotic resistance in \textit{Streptococcus pneumoniae} is a growing reason of concern in public health. In this paper, we investigate the dynamics of antibiotic sensitivity of \textit{S. pneumoniae} in response to vaccination. In a SIS model, we find that a change in availability of hosts leads to transient domination of sensitive over resistant strains. As an extension to this framework, we set up a SISV model which incorporates vaccination explicitly. The SISV model supports our prediction of transient dominance of sensitive strains. This domination of sensitive strains can be seen as a transient shift towards higher infectiousness. Data from the Massachusetts pneumococcal vaccination campaign does not show the same trends as we predict with our models. This means that i) the data resolution is too poor and we couldn't see the trends we expect to see or ii) the model misses important aspects of vaccination. 
 \end{abstract}
 
 \section{Introduction}
@@ -33,7 +33,7 @@ There are currently around $100$ different serotypes known of \textit{S. pneumon
 
 A growing concern for public health is antibiotic resistance in \textit{S. pneumoniae}. The economic costs induced by multi-drug resistance are estimated to be around \$ 100 trillion in the year 2050 in a worst-case estimate overall \cite{Lehtinen2017EvolutionCarriage}. When trying to understand resistance, one tries to understand the trade-offs resistance implies. On the one hand, a resistant cell has a selective advantage since it is not affected by antibiotic treatment. On the other hand, it has a selective disadvantage through any costs the resistance incurs. Costs of resistance affect fitness. Such a cost could be a decreased per capita growth rate \cite{Letten2021UsingCompetition}.\\
 
-The trade-off between reduced antibiotic-induced mortality and fitness cost can be seen as a variant of the duration of infection vs. infectiousness trade-off. Infectiousness and duration of infection are two life-history traits. These two traits are empirically negatively correlated, which can lead to the formulation as a trade-off. If e.g. the duration of the infection increases, the infectiousness decreases and vice versa \cite{Fraser2007VariationHypothesis}. This concept can be applied to antibiotic sensitivity. A strain sensitive to antibiotics is more infectious, as it does not have to invest resources in resistance. This lack of resistance on the other hand means that a sensitive strain can be more easily treated with antibiotics, which results in a decreased duration of infection. The resistant strains on the other hand can increase their duration of infection by evading antibiotic treatment via resistance. By investing resources in the resistance mechanism, they reduce their infectious potential \cite{Melnikov2020ExploitingPopulations, Fraser2014VirulencePerspective}. This means that the frequency of sensitive vs. resistant strains is a type of infectiousness vs. duration of infection trade-off. Which process is more beneficial in this trade-off is context-dependent \cite{Letten2021UsingCompetition}.\\
+The trade-off between reduced antibiotic-induced mortality and fitness cost can be seen as a variant of the duration of infection vs. infectiousness trade-off. Infectiousness and duration of infection are two life-history traits. These two traits are empirically negatively correlated, which can lead to the formulation as a trade-off. If e.g. the duration of the infection increases, the infectiousness decreases and vice versa \cite{Fraser2007VariationHypothesis}. This concept can be applied to antibiotic sensitivity. A strain sensitive to antibiotics is more infectious, as it does not have to invest resources in resistance. This lack of resistance on the other hand means that a sensitive strain can be more easily treated with antibiotics, which results in a decreased duration of infection. The resistant strains on the other hand can increase their duration of infection by evading antibiotic treatment. By investing resources in the resistance mechanism, they reduce their infectious potential \cite{Melnikov2020ExploitingPopulations, Fraser2014VirulencePerspective}. This means that the frequency of sensitive vs. resistant strains is a type of infectiousness vs. duration of infection trade-off. Which process is more beneficial in this trade-off is context-dependent \cite{Letten2021UsingCompetition}.\\
 
 One context in which the optimum of the trade-offs might change is the availability of hosts for the bacteria to infect. Vaccination is a process that changes the availability of hosts. This means that the trade-offs are expected to change as a result of vaccination. In 2000 the pneumococcal conjugate vaccine (PCV7) including 7 strains was approved by the FDA \cite{CentersforDiseaseControlandPreventionAboutVaccines}. For some types (vaccine-types) the availability in host decreased whereas for other types it increased (non-vaccine-types). This will result in a decrease of vaccine-type strains and an increase in non-vaccine-type strains. This process is called strain replacement \cite{Tekle2012ControllingStrains}. \\
 
@@ -64,7 +64,7 @@ The detailed description of the parameters can be found in table \ref{SIS-parame
 \begin{tabular}{|l|l|l|}
 \hline
 \rowcolor[HTML]{C0C0C0} 
-Parameter    & Description    & Simulation rate [per month]                                  \\ \hline
+Parameter    & Description    & Simulation rate [month$^{-1}$]                                  \\ \hline
 $\beta$      & transmission rate    &    0.002                      \\ \hline
 $\gamma$     & clearance rate        & 1                        \\ \hline
 $\tau$       & antibiotic consumption rate      & $\sim$0.21            \\ \hline
@@ -96,10 +96,10 @@ S = \frac{\gamma + \tau}{\beta} = \frac{c_{\gamma}c_{\beta}\gamma}{\beta}
 \label{eq:coexistence}
 \end{equation}
 
-If we take the inverse of $S$ it follows that $\frac{\beta}{\gamma + \tau} = \frac{\beta}{c_{\gamma}c_{\beta}\gamma}$. This is the definition of $R_0$ meaning that we get the relationship $R_{0,s} = R_{0,r}$ at equilibrium in a coexistence scenario. \cite{Lehtinen2017EvolutionCarriage}. If $R_{0,s} > R_{0,r}$ we will get the above mentioned competitive exclusion of resistant types over sensitives and vice versa if $R_{0,r} > R_{0,s}$ \cite{Lehtinen2017EvolutionCarriage}. This means the trade-off which strain is more competitive at equilibrium depends on the $R_0$ values.\\
+If we take the inverse of $S$ it follows that $\frac{\beta}{\gamma + \tau} = \frac{\beta}{c_{\gamma}c_{\beta}\gamma}$. This is the definition of $R_0$ meaning that we get the relationship $R_{0,s} = R_{0,r}$ at equilibrium in a coexistence scenario. \cite{Lehtinen2017EvolutionCarriage}. If $R_{0,s} > R_{0,r}$ we will get the above mentioned competitive exclusion of resistant types over sensitives and vice versa if $R_{0,r} > R_{0,s}$ (appendix \ref{der:stab}) \cite{Lehtinen2017EvolutionCarriage}. This means the trade-off which strain is more competitive at equilibrium depends on the $R_0$ values.\\
 
 \paragraph{Transient dynamics show a dominance of sensitive strains}
-Numerical integration of system \ref{eq:SIS} leads to the trajectories in figure \ref{fig:SIS_numerical}. We see a drop in susceptibles early in the disease progression. In this phase, we observe a transient increase in sensitive infections and later on a domination by resistant infections with the chosen parameter values. At which parameter values we expect to see a faster increase of sensitives can be quantified by the following inequality (derivation appendix \ref{der:initial}):
+Numerical integration of system \ref{eq:SIS} leads to the trajectories in figure \ref{fig:SIS_numerical}. We see a drop in susceptibles early in the disease progression. In this phase, we observe a transient increase in sensitive infections and later on a domination by resistant infections with the chosen parameter values. At which parameter values we expect to see a faster increase of sensitives can be quantified by the following inequality (appendix \ref{der:initial}):
 
 \begin{equation}
 \begin{aligned}
@@ -108,9 +108,8 @@ Numerical integration of system \ref{eq:SIS} leads to the trajectories in figure
 \end{aligned}
 \end{equation}
 
-If this inequality holds we observe a faster increase of sensitive strains relative to resistant strains. This inequality tells us as well, that availability of susceptibles plays a role in transmission, meaning that if $c_{\beta} > 1$ we expect an influence of the number of susceptibles on the transient dominance of sensitives. Availability has though no influence on clearance, as the cost of clearance $c_{\gamma}$ is not affected by $S_{df}$.\\
-
-If the susceptibles decrease, as is the case in the numerical simulation \ref{fig:SIS_numerical}, the inequality does not hold anymore and the resistant strains grow faster after the drop. It is apparent that the trade-off between resistant and sensitive strains in this transient phase depends on the availability of host and changes with the choice of parameter.\\
+If this inequality holds we observe a faster increase of sensitive strains relative to resistant strains. This inequality tells us as well, that availability of susceptibles plays a role in transmission, meaning that if $c_{\beta} > 1$ we expect an influence of the number of susceptibles on the transient dominance of sensitives. Availability of susceptibles has though no influence on clearance, as the cost of clearance $c_{\gamma}$ is not affected by $S_{df}$.\\
+If the number of susceptibles drops, as is the case in the numerical simulation \ref{fig:SIS_numerical}, the inequality does not hold anymore and the resistant strains grow faster after the drop. It is apparent that the trade-off between resistant and sensitive strains in this transient phase depends on the availability of host and changes with the choice of parameter.\\
 
 \paragraph{Initial conditions matter for the transient dynamics}
 A phase plane analysis of the SIS system in figure \ref{fig:phase_plane} shows the behaviour of the sensitive and resistant strains for different starting conditions. In the long run, we see the domination of the resistant strains no matter where we start from. Where the transient peak (if present) in sensitives lies is, however, highly dependent on the initial condition. The higher the initial value of $I_s$ is, the higher will be the number of infections at the peak. This shows that the trade-off between sensitive and resistant strains depends on the initial frequencies.\\
@@ -130,8 +129,6 @@ A phase plane analysis of the SIS system in figure \ref{fig:phase_plane} shows t
 \end{figure}
 
 Through the SIS antibiotic resistance model in equations \ref{eq:SIS}, we get an idea about how the sensitive and resistant strains change in frequency subject to a decrease in the available hosts (figure \ref{fig:SIS_numerical}). Vaccination is a process that leads to a decrease in the availability of hosts, so we expect a transient increase of sensitives in a vaccination setting followed by domination of resistance types at equilibrium. Via the phase plane analysis in figure \ref{fig:phase_plane}, we understand that initial conditions matter a lot for transient phenomena. The flaw in the modelling up until now is, that we do not account for vaccination explicitly. This leads to the next, more complex SISV model.
-
-\pagebreak
 
 \subsection{SISV Model of Antibiotic Resistance and Vaccination}
 
@@ -153,7 +150,7 @@ The main idea of this model was to take the SIS model from equation \ref{eq:SIS}
 \frac{dI_s^{nv,V}}{dt} &= \beta V (I_s^{nv,V} + I_s^{nv,S}) - (\gamma + \tau) I_s^{nv,V} + \nu I_s^{nv,S}\\
 \frac{dI_r^{nv,V}}{dt} &= \frac{\beta}{c_{\beta}} V (I_r^{nv,V} + I_r^{nv,S}) - c_{\gamma}\gamma I_r^{nv,V} + \nu I_r^{nv,S}\\
 \frac{dI_s^{v,S}}{dt} &= \beta S I_s^{v,S} - (\gamma + \tau) I_s^{v,S} - \nu I_s^{v,S}\\
-\frac{dI_r^v}{dt} &= \frac{\beta}{c_{\beta}} S I_r^{v,S} - c_{\gamma}\gamma I_r^{v,S} - \nu I_r^{v,S}\\
+\frac{dI_r^{v,S}}{dt} &= \frac{\beta}{c_{\beta}} S I_r^{v,S} - c_{\gamma}\gamma I_r^{v,S} - \nu I_r^{v,S}\\
 \frac{dV}{dt} &= \nu S + (\gamma + \tau)I_s^{nv,V} - \beta V I_s^{nv,V} + c_{\gamma}\gamma I_r^{nv,V} - \frac{\beta}{c_{\beta}} V I_r^{nv,V} + \nu (I_s^{v,S} + I_r^{v,S})
 \end{aligned}
 \label{eq:SISV}
@@ -185,7 +182,7 @@ $V$       & Vaccinated                  \\ \hline
 \begin{tabular}{|l|l|l|}
 \hline
 \rowcolor[HTML]{C0C0C0} 
-Parameter    & Description  & Simulation rate [per month]                                  \\ \hline
+Parameter    & Description  & Simulation rate [month$^{-1}$]                                  \\ \hline
 $\beta$      & transmission rate   & 0.002                          \\ \hline
 $\gamma$     & clearance rate      & 1                          \\ \hline
 $\tau$       & antibiotic consumption rate    & $\sim$ 0.21               \\ \hline
@@ -197,8 +194,7 @@ $\nu$        & vaccination rate   & 0.05\\ \hline
 \label{SISV-parameters}
 \end{table}
 
-If we want to introduce a rollout of the vaccine after reaching equilibrium, we need to have sensitive and resistant strains present in the population. To do this we will enforce coexistence. We saw that the $R_0$ values for the sensitives and the resistants need to be the same as we have derived in equation \ref{eq:coexistence}. We obtain the relationship $R_{0,s} = R_{0,r}$ to reach coexistence.\\
-
+If we want to introduce a rollout of the vaccine after reaching equilibrium, we need to have sensitive and resistant strains present in the population. To do this we will enforce coexistence. We saw that the $R_0$ values for the sensitives and the resistants need to be the same as we have derived in equation \ref{eq:coexistence}.
 This leads to a constraint on the antibiotic consumption rate as derived by Lehtinen et al. \cite{Lehtinen2017EvolutionCarriage}:
 
 \begin{equation}
@@ -282,7 +278,7 @@ ii) The other explanation might be, that our model in equation \ref{eq:SISV} was
 \section{Conclusion}
 Our modelling gives rise to the idea that a transient shift towards higher infectiousness is expected upon the introduction of a vaccine against \textit{S. pneumoniae}. These trends are robust to parameter changes and can be found in a simple model of antibiotic resistance (SIS) and are supported by a model of explicit vaccination (SISV). Data from the Massachusetts pneumococcal vaccination campaign do not show this transient higher infectiousness. This might be due to either a wrong model or the data being too poor to observe these transient effects. Further work should investigate a more fine-grained dataset of pneumococcal vaccination that would allow for a more robust understanding of the real-world setting. Furthermore, models including different approaches to coexistence and different cost choices should be considered for getting a broader picture of the expected processes. 
 
-\section{Acknowledgments} I thank Sonja Lehtinen for the kind supervision, it has been a very pleasant working atmosphere and a stimulating research topic. I thank Sebastian Bonhoeffer for enabling the lab rotation in the theoretical biology group as well.
+\section{Acknowledgments} I thank Sonja Lehtinen for the kind supervision, it has been a very pleasant working atmosphere and a stimulating research topic. I thank Sebastian Bonhoeffer for enabling the lab rotation in the theoretical biology group.
 
 \begin{footnotesize}
 \section{Material \& Methods}
@@ -397,6 +393,7 @@ I_s &= N - \frac{\gamma + \tau}{\beta}
 \end{aligned}
 $$
 \end{itemize}
+
 
 \section{Derivation of SIS Stability}
 \label{der:stab}
